@@ -1,7 +1,12 @@
+import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
-// import { Button, Container, Form } from 'react-bootstrap';
-import Footer from ./Footer.js
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
+import Profile from './components/Profile';
+import './App.css';
+import Footer from './components/Footer';
+import { Button, Container, Form } from 'react-bootstrap';
 
 
 const SERVER = process.env.REACT_APP_SERVER;
@@ -24,17 +29,18 @@ class App extends React.Component {
 
       })
     } catch (error) {
-      console.log('we have an error: ', error.response.data)
+      console.log('We have an error: ', error.response.data)
     }
   }
 
   postPokemon = async (pokemon) => {
-    console.log('I fired');
+    console.log('postPokemon console.log.');
     let config = {
       method: 'post',
       url: `${process.env.REACT_APP_SERVER}/pokemon`,
       data: pokemon
     }
+    
     try {
       let results = await axios(config);
       console.log(results.data);
@@ -43,7 +49,7 @@ class App extends React.Component {
 
       })
     } catch (error) {
-      console.log('we have an error: ', error.response.data)
+      console.log('We have an error: ', error.response.data)
     }
   }
 
@@ -57,40 +63,40 @@ class App extends React.Component {
         pokemon: updatedPokemon
       });
     } catch (error) {
-      console.log('we have an error: ', error.response.data);
+      console.log('We have an error: ', error.response.data);
     }
   }
 
   updatePokemon = async (pokemonToUpdate) => {
     try {
       let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
-      let updatedpokemon = await axios.put(url, pokemonToUpdate);
-      let updatedpokemonArray = this.state.pokemon.map(existingpokemon => {
+      let updatedPokemon = await axios.put(url, pokemonToUpdate);
+      let updatedPokemonArray = this.state.pokemon.map(existingpokemon => {
         return existingpokemon._id === pokemonToUpdate._id
-          ? updatedpokemon.data
+          ? updatedPokemon.data
           : existingpokemon
       });
       this.setState({
-        pokemon: updatedpokemonArray
+        pokemon: updatedPokemonArray
       });
     } catch (error) {
       console.log('we have an error: ', error.response.data);
     }
   }
 
-  componentDidMount() {
-    this.getpokemon();
-  }
+  // componentDidMount() {
+  //   this.getpokemon();
+  // }
 
-  handlepokemonubmit = (e) => {
+  handlePokemonSubmit = (e) => {
     e.preventDefault();
-    let newpokemon = {
+    let newPokemon = {
       title: e.target.title.value,
       description: e.target.description.value,
       status: e.target.status.checked
     }
-    console.log(newpokemon);
-    this.postpokemon(newpokemon);
+    console.log(newPokemon);
+    this.postPokemon(newPokemon);
   }
 
   handleDelete = async (pokemonToDelete) => {
@@ -99,8 +105,8 @@ class App extends React.Component {
     try {
       const response = await axios.delete(url);
       console.log(response.data);
-      const filteredpokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
-      this.setState({ pokemon: filteredpokemon });
+      const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
+      this.setState({ pokemon: filteredPokemon });
     } catch (error) {
       console.error(error);
     }
@@ -112,7 +118,7 @@ class App extends React.Component {
     })
   }
 
-  handleonHide = () => {
+  handleOnHide = () => {
     this.setState({
       show: false
     });
@@ -120,17 +126,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
+
+      <>      
+
+      <h1> New </h1>
+      {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
+
         <h2>Pokemon</h2>
-        <Header.js/>
+        {/* <Header.js/>
         <Roster.js/>
         <Footer.js/>
-        <xxx.js/>
-
-
+        <xxx.js/> */}
       </>
     )
   }
 }
 
-export default App;
+export default withAuth0(App);
