@@ -136,22 +136,22 @@ class App extends React.Component {
 
   handlePokeName = (e) => {
     this.setState({
-      searchQuery: e.target.value
+      pokeName: e.target.value,
     });
   }
 
   findByName = async (e) => {
     e.preventDefault();
     try {
-      let pokemonURL = `https://api.pokemontcg.io/v2/cards?X-Api-Key=${process.env.REACT_APP_X_API_KEY}&q=name:${this.state.searchQuery}`
+      let pokemonURL = `${process.env.REACT_APP_SERVER}/getname/${this.state.pokeName}`
       let pokeNameObj = await axios.get(pokemonURL);
 
       this.setState({
-        pokeNameObj: pokeNameObj.data.data[0],
-        name: pokeNameObj.data.data[0].name,
-        id: pokeNameObj.data.data[0].id,
-        types: pokeNameObj.data.data[0].types,
-        img: pokeNameObj.data.data[0].images.large,
+        pokeNameObj: pokeNameObj.data[0],
+        name: pokeNameObj.data[0].name,
+        id: pokeNameObj.data[0].id,
+        types: pokeNameObj.data[0].types,
+        img: pokeNameObj.data[0].img,
         showModal: true
       })
 
@@ -165,7 +165,7 @@ class App extends React.Component {
   }
   
   render() {
-    console.log('Pke name', this.state.searchQuery);
+    console.log('Poke name', this.state.pokeName);
     console.log('Poke Obj', this.state.pokeNameObj);
     console.log('Poke img', this.state.img);
     return (
