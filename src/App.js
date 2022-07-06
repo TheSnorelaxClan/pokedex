@@ -1,16 +1,23 @@
 import React from 'react';
 import axios from 'axios';
-// import { Button, Container, Form } from 'react-bootstrap';
-import Footer from ./Footer.js
+import { Button, Form, Modal, Container, Card } from 'react-bootstrap';
+// import Footer from './components/Footer';
+import Roster from './components/Roster';
+// import AboutUs from './components/AboutUs';
+import AboutPokedex from './components/AboutPokedex';
 
 
 const SERVER = process.env.REACT_APP_SERVER;
 const API_URL = `${SERVER}/pokemon`;
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pokemon: []
+      pokemon: [],
+      pokeNameObj: {},
+      showModal: false
     }
   }
 
@@ -79,18 +86,19 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getpokemon();
+    this.getPokemon();
   }
 
-  handlepokemonubmit = (e) => {
+  handlePokemonSubmit = (e) => {
     e.preventDefault();
-    let newpokemon = {
-      title: e.target.title.value,
-      description: e.target.description.value,
-      status: e.target.status.checked
+    let newPokemon = {
+      name: e.target.name.value,
+      type: e.target.type.value,
+      id: e.target.id.value,
+      img: e.target.img.value
     }
-    console.log(newpokemon);
-    this.postpokemon(newpokemon);
+    console.log(newPokemon);
+    this.postPokemon(newPokemon);
   }
 
   handleDelete = async (pokemonToDelete) => {
@@ -112,20 +120,88 @@ class App extends React.Component {
     })
   }
 
-  handleonHide = () => {
+  handleOnHide = () => {
     this.setState({
-      show: false
+      showModal: false
     });
   };
 
+  handlePokeName = (e) => {
+    this.setState({
+      searchQuery: e.target.value
+    });
+  }
+
+  findByName = async (e) => {
+    e.preventDefault();
+    try {
+      let pokemonURL = `https://api.pokemontcg.io/v2/cards?X-Api-Key=${process.env.REACT_APP_X_API_KEY}&q=name:${this.state.searchQuery}`
+      let pokeNameObj = await axios.get(pokemonURL);
+
+      this.setState({
+        pokeNameObj: pokeNameObj.data.data[0],
+        name: pokeNameObj.data.data[0].name,
+        id: pokeNameObj.data.data[0].id,
+        types: pokeNameObj.data.data[0].types,
+        img: pokeNameObj.data.data[0].images.large,
+        showModal: true
+      })
+
+    } catch (error) {
+      console.log('error', error)
+      this.setState({
+        error: true,
+        errorMsg: `Error: ${error.message}. Please Refresh & Try Again.`
+      })
+    }
+  }
+  
   render() {
+    console.log('Pke name', this.state.searchQuery);
+    console.log('Poke Obj', this.state.pokeNameObj);
+    console.log('Poke img', this.state.img);
     return (
       <>
         <h2>Pokemon</h2>
-        <Header.js/>
-        <Roster.js/>
-        <Footer.js/>
-        <xxx.js/>
+        <Form
+          onSubmit={this.findByName}>
+          <Form.Control
+            className='mb-3 mt-3'
+            box-sizing='border-box'
+            type="text"
+            onInput={this.handlePokeName}
+            placeholder="Enter Pokemon Name" />
+          <Button className='mb-3' variant="outline-dark" type="submit">Catch 'em!</Button>
+        </Form>
+        <Container>
+          <Modal className='h-100 p-5'
+            show={this.state.showModal}
+            onHide={this.handleOnHide}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <img className="img-fluid"
+                src={this.state.img}
+                alt={this.state.name}
+              />
+            </Modal.Body>
+          </Modal>
+        </Container>
+        <Card className='h-100 p-3'>
+          <Card.Header className='text-center'>
+            {this.state.name}
+          </Card.Header>
+          <Card.Img variant="top" src={this.state.img} />
+          <Card.Body className='mt-3 mb-3'>
+            <Card.Text>{this.state.types}</Card.Text>
+          </Card.Body>
+        </Card>
+        <Roster />
+        {/* <AboutUs/> */}
+        <AboutPokedex />
+        {/* <Footer /> */}
 
 
       </>
