@@ -5,6 +5,7 @@ import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import './App.css';
+import Content from './components/Content';
 import Footer from './components/Footer';
 import { Button, Container, Form } from 'react-bootstrap';
 
@@ -20,7 +21,7 @@ class App extends React.Component {
   }
 
   getPokemon = async () => {
-    console.log('I fired');
+    console.log('Get Pokemon: ');
     try {
       let results = await axios.get(`${process.env.REACT_APP_SERVER}/pokemon`);
       console.log(results.data);
@@ -34,7 +35,7 @@ class App extends React.Component {
   }
 
   postPokemon = async (pokemon) => {
-    console.log('postPokemon console.log.');
+    console.log('Post Pokemon: ', pokemon);
     let config = {
       method: 'post',
       url: `${process.env.REACT_APP_SERVER}/pokemon`,
@@ -49,7 +50,7 @@ class App extends React.Component {
 
       })
     } catch (error) {
-      console.log('We have an error: ', error.response.data)
+      console.log('Post Pokemon: We have an error: ', error.response.data)
     }
   }
 
@@ -63,7 +64,7 @@ class App extends React.Component {
         pokemon: updatedPokemon
       });
     } catch (error) {
-      console.log('We have an error: ', error.response.data);
+      console.log('Delete Pokemon: e have an error: ', error.response.data);
     }
   }
 
@@ -71,22 +72,22 @@ class App extends React.Component {
     try {
       let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
       let updatedPokemon = await axios.put(url, pokemonToUpdate);
-      let updatedPokemonArray = this.state.pokemon.map(existingpokemon => {
-        return existingpokemon._id === pokemonToUpdate._id
+      let updatedPokemonArray = this.state.pokemon.map(existingPokemon => {
+        return existingPokemon._id === pokemonToUpdate._id
           ? updatedPokemon.data
-          : existingpokemon
+          : existingPokemon
       });
       this.setState({
         pokemon: updatedPokemonArray
       });
     } catch (error) {
-      console.log('we have an error: ', error.response.data);
+      console.log('Updated Pokemon: We have an error: ', error.response.data);
     }
   }
 
-  // componentDidMount() {
-  //   this.getpokemon();
-  // }
+  componentDidMount() {
+    this.getPokemon();
+  }
 
   handlePokemonSubmit = (e) => {
     e.preventDefault();
@@ -108,7 +109,7 @@ class App extends React.Component {
       const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
       this.setState({ pokemon: filteredPokemon });
     } catch (error) {
-      console.error(error);
+      console.error('Handle Delete: We have an error!', error);
     }
   }
 
@@ -126,20 +127,21 @@ class App extends React.Component {
 
   render() {
     return (
-
       <>      
 
-      <h1> New </h1>
+      <h2> User Profile </h2>
       {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
       {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
+    
 
         <h2>Pokemon</h2>
         {/* <Header.js/>
         <Roster.js/>
         <Footer.js/>
         <xxx.js/> */}
+
       </>
-    )
+    );
   }
 }
 
