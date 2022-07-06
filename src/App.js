@@ -1,10 +1,17 @@
+import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
 import { Button, Form, Modal, Container, Card } from 'react-bootstrap';
-// import Footer from './components/Footer';
 import Roster from './components/Roster';
-// import AboutUs from './components/AboutUs';
 import AboutPokedex from './components/AboutPokedex';
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
+import Profile from './components/Profile';
+import './App.css';
+// import Content from './components/Content';
+// import Footer from './components/Footer';
+
+
 
 
 const SERVER = process.env.REACT_APP_SERVER;
@@ -22,7 +29,7 @@ class App extends React.Component {
   }
 
   getPokemon = async () => {
-    console.log('I fired');
+    console.log('Get Pokemon: ');
     try {
       let results = await axios.get(`${process.env.REACT_APP_SERVER}/pokemon`);
       console.log(results.data);
@@ -31,17 +38,18 @@ class App extends React.Component {
 
       })
     } catch (error) {
-      console.log('we have an error: ', error.response.data)
+      console.log('We have an error: ', error.response.data)
     }
   }
 
   postPokemon = async (pokemon) => {
-    console.log('I fired');
+    console.log('Post Pokemon: ', pokemon);
     let config = {
       method: 'post',
       url: `${process.env.REACT_APP_SERVER}/pokemon`,
       data: pokemon
     }
+    
     try {
       let results = await axios(config);
       console.log(results.data);
@@ -50,7 +58,7 @@ class App extends React.Component {
 
       })
     } catch (error) {
-      console.log('we have an error: ', error.response.data)
+      console.log('Post Pokemon: We have an error: ', error.response.data)
     }
   }
 
@@ -64,24 +72,24 @@ class App extends React.Component {
         pokemon: updatedPokemon
       });
     } catch (error) {
-      console.log('we have an error: ', error.response.data);
+      console.log('Delete Pokemon: e have an error: ', error.response.data);
     }
   }
 
   updatePokemon = async (pokemonToUpdate) => {
     try {
       let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
-      let updatedpokemon = await axios.put(url, pokemonToUpdate);
-      let updatedpokemonArray = this.state.pokemon.map(existingpokemon => {
-        return existingpokemon._id === pokemonToUpdate._id
-          ? updatedpokemon.data
-          : existingpokemon
+      let updatedPokemon = await axios.put(url, pokemonToUpdate);
+      let updatedPokemonArray = this.state.pokemon.map(existingPokemon => {
+        return existingPokemon._id === pokemonToUpdate._id
+          ? updatedPokemon.data
+          : existingPokemon
       });
       this.setState({
-        pokemon: updatedpokemonArray
+        pokemon: updatedPokemonArray
       });
     } catch (error) {
-      console.log('we have an error: ', error.response.data);
+      console.log('Updated Pokemon: We have an error: ', error.response.data);
     }
   }
 
@@ -107,10 +115,10 @@ class App extends React.Component {
     try {
       const response = await axios.delete(url);
       console.log(response.data);
-      const filteredpokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
-      this.setState({ pokemon: filteredpokemon });
+      const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
+      this.setState({ pokemon: filteredPokemon });
     } catch (error) {
-      console.error(error);
+      console.error('Handle Delete: We have an error!', error);
     }
   }
 
@@ -161,7 +169,13 @@ class App extends React.Component {
     console.log('Poke Obj', this.state.pokeNameObj);
     console.log('Poke img', this.state.img);
     return (
-      <>
+      <>      
+
+      <h2> User Profile </h2>
+      {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
+    
+
         <h2>Pokemon</h2>
         <Form
           onSubmit={this.findByName}>
@@ -205,8 +219,8 @@ class App extends React.Component {
 
 
       </>
-    )
+    );
   }
 }
 
-export default App;
+export default withAuth0(App);
