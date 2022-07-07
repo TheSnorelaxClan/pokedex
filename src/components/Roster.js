@@ -25,14 +25,24 @@ class Header extends React.Component {
     this.getPokemon();
   }
 
+  deletePokemon = async (id) => {
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/pokemon/${id}`;
+      await axios.delete(url);
+      this.getPokemon();
+    } catch (error) {
+      console.log('Issue deleting pokemon!', error.response.data);
+    }
+  }
+
   render() {
 
     let pokemon = this.state.allPokemon.map((pokemon)=>{
       return(
-      <Card key={pokemon.id}>
+      <Card key={pokemon._id}>
         <Card.Img src={pokemon.img} alt={pokemon.name}/>
         <Card.Footer>
-          <Button>Delete</Button>
+          <Button onClick={()=>this.deletePokemon(pokemon._id)}>Delete</Button>
         </Card.Footer>
       </Card>
     )});
