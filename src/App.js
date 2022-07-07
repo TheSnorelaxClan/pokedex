@@ -7,14 +7,7 @@ import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
-// import Content from './components/Content';
-
-
-
-
-const SERVER = process.env.REACT_APP_SERVER;
-const API_URL = `${SERVER}/pokemon`;
-
+// import Header from './components/Header';
 
 class App extends React.Component {
   constructor(props) {
@@ -37,23 +30,6 @@ class App extends React.Component {
     }
   }
 
-  updatePokemon = async (pokemonToUpdate) => {
-    try {
-      let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
-      let updatedPokemon = await axios.put(url, pokemonToUpdate);
-      let updatedPokemonArray = this.state.pokemon.map(existingPokemon => {
-        return existingPokemon._id === pokemonToUpdate._id
-          ? updatedPokemon.data
-          : existingPokemon
-      });
-      this.setState({
-        pokemon: updatedPokemonArray
-      });
-    } catch (error) {
-      console.log('Updated Pokemon: We have an error: ', error.response.data);
-    }
-  }
-
   handlePokemonSubmit = (e) => {
     e.preventDefault();
     let newPokemon = {
@@ -63,19 +39,6 @@ class App extends React.Component {
       img: e.target.img.value
     }
     this.postPokemon(newPokemon);
-  }
-
-  handleDelete = async (pokemonToDelete) => {
-    const url = `${API_URL}/${pokemonToDelete._id}`;
-
-    try {
-      const response = await axios.delete(url);
-      console.log(response.data);
-      const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
-      this.setState({ pokemon: filteredPokemon });
-    } catch (error) {
-      console.error('Handle Delete: We have an error!', error);
-    }
   }
 
   handleOpen = () => {
@@ -167,10 +130,21 @@ class App extends React.Component {
     return (
       <>
 
-        <h2> User Profile </h2>
         {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
+        {this.props.auth0.isAuthenticated ? <Profile /> : <p>Please Login! </p>}
 
+        <Container className="d-flex align-items-center justify-content-center text-center">
+          <Form
+            onSubmit={this.findByName}>
+            <Form.Control
+              className='mb-3 mt-3'
+              box-sizing='border-box'
+              type="text"
+              onInput={this.handlePokeName}
+              placeholder="Enter Pokemon Name" />
+            <Button className='mb-3' variant="outline-dark" type="submit">Catch 'em!</Button>
+          </Form>
+        </Container>
 
         <h2>Pokemon</h2>
         <Form
@@ -260,14 +234,12 @@ class App extends React.Component {
                 src='./img/Pokemon_Type_Icon_Steel.png'
                 alt='metal icon'
                 onClick={() => this.findByType('Metal')} />
-                <img className="type-icon"
+              <img className="type-icon"
                 src='./img/Pokemon_Type_Icon_Ghost.png'
                 alt='ghost icon'
                 onClick={() => this.findByType('Psychic')} />
             </Row>
           </Container>}
-
-
       </>
     );
   }

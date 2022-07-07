@@ -8,6 +8,8 @@ class Header extends React.Component {
     super(props);
     this.state = {
       allPokemon: [],
+      team: [],
+      showSwap: false,
     }
   }
 
@@ -18,12 +20,24 @@ class Header extends React.Component {
         allPokemon: results.data
       })
     } catch (error) {
-      console.log('We have an error: ', error.response.data)
+      console.log('Error getting pokemon info ', error.response.data)
+    }
+  }
+
+  getTeam = async () => {
+    try {
+      let results = await axios.get(`${process.env.REACT_APP_SERVER}/team`);
+      this.setState({
+        team: results.data
+      })
+    } catch (error) {
+      console.log('Error getting team info ', error.response.data)
     }
   }
 
   componentDidMount() {
     this.getPokemon();
+    this.getTeam();
   }
 
   deletePokemon = async (id) => {
@@ -36,29 +50,100 @@ class Header extends React.Component {
     }
   }
 
+  updatePokemon = async (pokemonToUpdate) => {
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
+      await axios.put(url, this.state.newPokemon);
+      this.getTeam();
+      this.setState({
+        showSwap: false
+      })
+    } catch (error) {
+      console.log('Updated Pokemon: We have an error: ', error.response.data);
+    }
+  }
+
+  handleUpdate = (name, types, id, img) => {
+    let newPokemon = {
+      name: name,
+      types: types,
+      id: id,
+      img: img
+    }
+    this.setState({
+      showSwap: true,
+      newPokemon: newPokemon
+    })
+  }
+
+
+
   render() {
 
-    let pokemon = this.state.allPokemon.map((pokemon)=>{
-      return(
-      <Col className='md-5 mt-5'>
-      <Card key={pokemon._id}>
-        <Card.Img src={pokemon.img} alt={pokemon.name}/>
-        <Card.Footer>
-          <Button variant="dark" onClick={()=>this.deletePokemon(pokemon._id)}>Delete</Button>
-        </Card.Footer>
-      </Card>
-    </Col>
-    )});
+    let pokemon = this.state.allPokemon.map((pokemon) => {
+      return (
+        <Col className='md-5 mt-5'>
+          <Card
+            key={pokemon._id}
+            className="d-flex align-items-center justify-content-center text-center"
+          >
+            <Card.Img
+              src={pokemon.img}
+              alt={pokemon.name} />
+            <Card.Body>
+               <Button
+                className='m-1'
+                variant="danger"
+                bsSize="small"
+                onClick={() => this.handleUpdate(pokemon.name, pokemon.types, pokemon.id, pokemon.img)}>Add to team
+              </Button>
+            </Card.Body>
+            <Card.Footer >
+              <Button
+                className='m-1'
+                variant="dark"
+                bsSize="xsmall"
+                onClick={() => this.deletePokemon(pokemon._id)}>Delete</Button>
+            </Card.Footer>
+          </Card>
+        </Col>
+      )
+    });
+
+    let team = this.state.team.map((pokemon) => {
+      return (
+        <Col className='md-5 mt-5'>
+          <Card
+          className="d-flex align-items-center justify-content-center text-center"
+          key={pokemon._id}>
+            <Card.Img src={pokemon.img} alt={pokemon.name} />
+            {this.state.showSwap ?
+              <Card.Footer>
+                <Button
+                variant="dark"
+                onClick={() => this.updatePokemon(pokemon)}>Swap</Button>
+              </Card.Footer>
+              : ''}
+          </Card>
+        </Col>
+      )
+    });
 
     return (
       <>
-     <h2>Library</h2>
-     <Container>
-     <Row xs={1} sm={2} md={3} lg={5}>
-     {pokemon}
-     </Row>
-     </Container>
-     </>
+        <h2>Your Team</h2>
+        <Container>
+          <Row sm={3} lg={6}>
+            {team}
+          </Row>
+        </Container>
+        <h2>Your Deck</h2>
+        <Container>
+          <Row xs={2} sm={4} md={6} lg={8}>
+            {pokemon}
+          </Row>
+        </Container>
+      </>
     );
   }
 }
