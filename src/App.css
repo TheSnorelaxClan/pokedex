@@ -17,8 +17,15 @@
   color: #61dafb;
 }
 
+.type-icon-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .type-icon {
   transition: transform 1s;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
 }
 
 .type-icon:hover {

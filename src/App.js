@@ -1,7 +1,7 @@
 import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Modal, Container, Row } from 'react-bootstrap';
+import { Button, Form, Modal, Container, Row, } from 'react-bootstrap';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
@@ -209,7 +209,7 @@ class App extends React.Component {
               {pokemon}
             </Row>
           </Container>
-          : <Container>
+          : <Container className='type-icon-container'>
             <Row xs={1} sm={2} md={3} lg={6}>
               <img className="type-icon"
                 src='./img/Pokemon_Type_Icon_Fire.png'
@@ -255,6 +255,10 @@ class App extends React.Component {
                 src='./img/Pokemon_Type_Icon_Steel.png'
                 alt='metal icon'
                 onClick={() => this.findByType('Metal')} />
+                <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Ghost.png'
+                alt='ghost icon'
+                onClick={() => this.findByType('Psychic')} />
             </Row>
           </Container>}
 
