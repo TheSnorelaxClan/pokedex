@@ -29,7 +29,7 @@ class App extends React.Component {
   }
 
   postPokemon = async (newPokemon) => {
-    let url=`${process.env.REACT_APP_SERVER}/pokemon`;
+    let url = `${process.env.REACT_APP_SERVER}/pokemon`;
     try {
       await axios.post(url, newPokemon);
     } catch (error) {
@@ -139,8 +139,8 @@ class App extends React.Component {
     }
   }
 
-  addPokemon = (name, types, id, img)=>{
-    let newPokemon={
+  addPokemon = (name, types, id, img) => {
+    let newPokemon = {
       name: name,
       types: types,
       id: id,
@@ -148,28 +148,29 @@ class App extends React.Component {
     }
     this.postPokemon(newPokemon)
   }
-  
+
   render() {
 
-    let pokemon = this.state.typeData.map((pokemon)=>{
-      return(
-      <Pokemon
-      name={pokemon.name}
-      img={pokemon.img}
-      types={pokemon.types}
-      key={pokemon._id}
-      id={pokemon.id}
-      addPokemon={this.addPokemon}
-      />
-    )});
+    let pokemon = this.state.typeData.map((pokemon) => {
+      return (
+        <Pokemon
+          name={pokemon.name}
+          img={pokemon.img}
+          types={pokemon.types}
+          key={pokemon._id}
+          id={pokemon.id}
+          addPokemon={this.addPokemon}
+        />
+      )
+    });
 
     return (
       <>
 
-      <h2> User Profile </h2>
-      {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-      {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
-    
+        <h2> User Profile </h2>
+        {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
+        {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
+
 
         <h2>Pokemon</h2>
         <Form
@@ -197,22 +198,65 @@ class App extends React.Component {
               />
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="dark" onClick={()=>this.addPokemon(this.state.name, this.state.types, this.state.id, this.state.img)} >Add to library</Button>
+              <Button variant="dark" onClick={() => this.addPokemon(this.state.name, this.state.types, this.state.id, this.state.img)} >Add to library</Button>
             </Modal.Footer>
           </Modal>
         </Container>
-        {this.state.showCards?
+        {this.state.showCards ?
           <Container>
-            <Button variant="outline-dark" onClick={()=>this.setState({showCards: false})}>Back</Button>
+            <Button variant="outline-dark" onClick={() => this.setState({ showCards: false })}>Back</Button>
             <Row xs={1} sm={2} md={3} lg={6}>
-            {pokemon}
+              {pokemon}
             </Row>
           </Container>
-        :<Container>
-          <h2 onClick={()=>this.findByType('Fire')}>Fire</h2>
-          <h2 onClick={()=>this.findByType('Water')}>Water</h2>
-          <h2 onClick={()=>this.findByType('Grass')}>Grass</h2>
-        </Container>}
+          : <Container>
+            <Row xs={1} sm={2} md={3} lg={6}>
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Fire.png'
+                alt='fire icon'
+                onClick={() => this.findByType('Fire')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Water.png'
+                alt='water icon'
+                onClick={() => this.findByType('Water')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Grass.png'
+                alt='grass icon'
+                onClick={() => this.findByType('Grass')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Dark.png'
+                alt='dark icon'
+                onClick={() => this.findByType('Darkness')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Dragon.png'
+                alt='dragon icon'
+                onClick={() => this.findByType('Dragon')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Electric.png'
+                alt='lightning icon'
+                onClick={() => this.findByType('Lightning')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Fairy.png'
+                alt='fairy icon'
+                onClick={() => this.findByType('Fairy')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Fighting.png'
+                alt='fighting icon'
+                onClick={() => this.findByType('Fighting')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Normal.png'
+                alt='colorless icon'
+                onClick={() => this.findByType('Colorless')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Psychic.png'
+                alt='psychic icon'
+                onClick={() => this.findByType('Psychic')} />
+              <img className="type-icon"
+                src='./img/Pokemon_Type_Icon_Steel.png'
+                alt='metal icon'
+                onClick={() => this.findByType('Metal')} />
+            </Row>
+          </Container>}
 
 
       </>
