@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import './Roster.css';
 
 class Header extends React.Component {
   constructor(props) {
@@ -39,18 +40,24 @@ class Header extends React.Component {
 
     let pokemon = this.state.allPokemon.map((pokemon)=>{
       return(
+      <Col className='md-5 mt-5'>
       <Card key={pokemon._id}>
         <Card.Img src={pokemon.img} alt={pokemon.name}/>
         <Card.Footer>
-          <Button onClick={()=>this.deletePokemon(pokemon._id)}>Delete</Button>
+          <Button variant="dark" onClick={()=>this.deletePokemon(pokemon._id)}>Delete</Button>
         </Card.Footer>
       </Card>
+    </Col>
     )});
 
     return (
       <>
-     <h2>Library</h2>    
+     <h2>Library</h2>
+     <Container>
+     <Row xs={1} sm={2} md={3} lg={5}>
      {pokemon}
+     </Row>
+     </Container>
      </>
     );
   }
