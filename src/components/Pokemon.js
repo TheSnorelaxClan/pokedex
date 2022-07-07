@@ -7,7 +7,7 @@ class Pokemon extends React.Component{
     return(
       <Col className='md-5 mt-5'>
       <Card
-      className="d-flex align-items-center justify-content-center text-center"
+      className="d-flex align-items-center justify-content-center text-center bg-transparent"
       >
         <Card.Img src={this.props.img} alt={this.props.name}/>
         <Card.Body>

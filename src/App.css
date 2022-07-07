@@ -2,6 +2,17 @@
   text-align: center;
 }
 
+body {
+  background-image: url('./components/Pokemon\ Clouds\ Wallpaper.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 100%;
+  background-size: 100% 100%;
+  align-self: center;
+  align-content: center;
+  flex-direction: row;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -20,7 +31,7 @@
 .type-icon-container {
   display: flex;
   justify-content: space-evenly;
-  padding-top: 50pt;
+  padding-top: 30pt;
 }
 
 .type-icon {
