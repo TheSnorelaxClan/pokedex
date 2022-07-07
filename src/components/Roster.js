@@ -22,7 +22,7 @@ class Header extends React.Component {
     } catch (error) {
       console.log('Error getting pokemon info ', error.response.data)
     }
-  }  
+  }
 
   getTeam = async () => {
     try {
@@ -80,30 +80,50 @@ class Header extends React.Component {
 
   render() {
 
-    let pokemon = this.state.allPokemon.map((pokemon)=>{
-      return(
+    let pokemon = this.state.allPokemon.map((pokemon) => {
+      return (
         <Col className='md-5 mt-5'>
-        <Card key={pokemon._id}>
-          <Card.Img src={pokemon.img} alt={pokemon.name}/>
-          <Card.Footer>
-            <Button variant="dark" onClick={()=>this.deletePokemon(pokemon._id)}>Delete</Button>
-            <Button variant="dark" onClick={()=>this.handleUpdate(pokemon.name, pokemon.types, pokemon.id, pokemon.img)}>Add to team</Button>
-          </Card.Footer>
-        </Card>
+          <Card
+            key={pokemon._id}
+            className="d-flex align-items-center justify-content-center text-center"
+          >
+            <Card.Img
+              src={pokemon.img}
+              alt={pokemon.name} />
+            <Card.Body>
+               <Button
+                className='m-1'
+                variant="danger"
+                bsSize="small"
+                onClick={() => this.handleUpdate(pokemon.name, pokemon.types, pokemon.id, pokemon.img)}>Add to team
+              </Button>
+            </Card.Body>
+            <Card.Footer >
+              <Button
+                className='m-1'
+                variant="dark"
+                bsSize="xsmall"
+                onClick={() => this.deletePokemon(pokemon._id)}>Delete</Button>
+            </Card.Footer>
+          </Card>
         </Col>
       )
     });
 
-    let team = this.state.team.map((pokemon)=>{
-      return(
+    let team = this.state.team.map((pokemon) => {
+      return (
         <Col className='md-5 mt-5'>
-          <Card key={pokemon._id}>
-            <Card.Img src={pokemon.img} alt={pokemon.name}/>
-            {this.state.showSwap?
-            <Card.Footer>
-              <Button onClick={()=>this.updatePokemon(pokemon)}>Swap</Button>
-            </Card.Footer>
-            :''}
+          <Card
+          className="d-flex align-items-center justify-content-center text-center"
+          key={pokemon._id}>
+            <Card.Img src={pokemon.img} alt={pokemon.name} />
+            {this.state.showSwap ?
+              <Card.Footer>
+                <Button
+                variant="dark"
+                onClick={() => this.updatePokemon(pokemon)}>Swap</Button>
+              </Card.Footer>
+              : ''}
           </Card>
         </Col>
       )
@@ -111,18 +131,18 @@ class Header extends React.Component {
 
     return (
       <>
-      <h2>Team</h2>
-      <Container>
-      <Row sm={3} lg={6}>
-      {team}
-      </Row>
-      </Container>
-      <h2>Library</h2>
-      <Container>
-      <Row xs={2} sm={4} md={6} lg={8}>
-      {pokemon}
-      </Row>
-      </Container>
+        <h2>Your Team</h2>
+        <Container>
+          <Row sm={3} lg={6}>
+            {team}
+          </Row>
+        </Container>
+        <h2>Your Deck</h2>
+        <Container>
+          <Row xs={2} sm={4} md={6} lg={8}>
+            {pokemon}
+          </Row>
+        </Container>
       </>
     );
   }

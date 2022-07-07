@@ -7,6 +7,7 @@ import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
+// import Header from './components/Header';
 
 
 
@@ -147,21 +148,23 @@ class App extends React.Component {
 
     return (
       <>
-        <h2> User Profile </h2>
-        {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
 
-        <h2>Pokemon</h2>
-        <Form
-          onSubmit={this.findByName}>
-          <Form.Control
-            className='mb-3 mt-3'
-            box-sizing='border-box'
-            type="text"
-            onInput={this.handlePokeName}
-            placeholder="Enter Pokemon Name" />
-          <Button className='mb-3' variant="outline-dark" type="submit">Catch 'em!</Button>
-        </Form>
+        {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
+        {this.props.auth0.isAuthenticated ? <Profile /> : <p>Please Login! </p>}
+
+        <Container className="d-flex align-items-center justify-content-center text-center">
+          <Form
+            onSubmit={this.findByName}>
+            <Form.Control
+              className='mb-3 mt-3'
+              box-sizing='border-box'
+              type="text"
+              onInput={this.handlePokeName}
+              placeholder="Enter Pokemon Name" />
+            <Button className='mb-3' variant="outline-dark" type="submit">Catch 'em!</Button>
+          </Form>
+        </Container>
+
         <Container>
           <Modal className='h-100 p-5'
             show={this.state.showModal}
@@ -234,7 +237,7 @@ class App extends React.Component {
                 src='./img/Pokemon_Type_Icon_Steel.png'
                 alt='metal icon'
                 onClick={() => this.findByType('Metal')} />
-                <img className="type-icon"
+              <img className="type-icon"
                 src='./img/Pokemon_Type_Icon_Ghost.png'
                 alt='ghost icon'
                 onClick={() => this.findByType('Psychic')} />
