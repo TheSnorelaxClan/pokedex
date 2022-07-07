@@ -37,19 +37,6 @@ class App extends React.Component {
     }
   }
 
-  deletePokemon = async (id) => {
-    try {
-      let url = `${process.env.REACT_APP_SERVER}/pokemon/${id}`;
-      await axios.delete(url);
-      let updatedPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== id);
-      this.setState({
-        pokemon: updatedPokemon
-      });
-    } catch (error) {
-      console.log('Delete Pokemon: e have an error: ', error.response.data);
-    }
-  }
-
   updatePokemon = async (pokemonToUpdate) => {
     try {
       let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
@@ -170,7 +157,7 @@ class App extends React.Component {
       name={pokemon.name}
       img={pokemon.img}
       types={pokemon.types}
-      key={pokemon.id}
+      key={pokemon._id}
       id={pokemon.id}
       addPokemon={this.addPokemon}
       />
@@ -214,15 +201,6 @@ class App extends React.Component {
             </Modal.Footer>
           </Modal>
         </Container>
-        {/* <Card className='h-100 p-3'>
-          <Card.Header className='text-center'>
-            {this.state.name}
-          </Card.Header>
-          <Card.Img variant="top" src={this.state.img} />
-          <Card.Body className='mt-3 mb-3'>
-            <Card.Text>{this.state.types}</Card.Text>
-          </Card.Body>
-        </Card> */}
         {this.state.showCards?
           <Container>
             <Button onClick={()=>this.setState({showCards: false})}>Back</Button>
