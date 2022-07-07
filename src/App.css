@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.type-icon-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.type-icon {
+  transition: transform 1s;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+}
+
+.type-icon:hover {
+  transform: rotate(1080deg) scale(1.2);
+}
