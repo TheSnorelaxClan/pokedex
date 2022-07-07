@@ -1,11 +1,16 @@
 import React from 'react';
+import { Navbar, NavItem } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 class Header extends React.Component {
   render() {
     return (
-      <header className="header-container">
-        <h1>Pokedex Display</h1>
-      </header>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand>Pokedex</Navbar.Brand>
+        <NavItem><Link to="/" className="nav-link">Home</Link></NavItem>
+        <NavItem><Link to="/roster" className="nav-link">Library</Link></NavItem>
+        <NavItem><Link to="/about" className="nav-link">About Us</Link></NavItem>
+      </Navbar>      
     );
   }
 }
