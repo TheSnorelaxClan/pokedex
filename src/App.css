@@ -20,6 +20,7 @@
 .type-icon-container {
   display: flex;
   justify-content: space-evenly;
+  padding-top: 50pt;
 }
 
 .type-icon {

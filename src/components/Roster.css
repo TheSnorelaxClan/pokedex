@@ -1,7 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
+body {
+  
+  font-family: 'Nunito Sans', sans-serif;
+}
+
 .card {
+  border:none;
   transition: transform 2s;
 }
 
 .card:hover {
   transform: scale(1.2);
+}
+
+h2 {
+  font-family: 'Titan One', cursive;
+  font-size: 5vw;
+  margin-top: 20pt;
+  text-align: center;
 }
