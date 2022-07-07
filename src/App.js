@@ -8,12 +8,6 @@ import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
 
-
-
-const SERVER = process.env.REACT_APP_SERVER;
-const API_URL = `${SERVER}/pokemon`;
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -44,19 +38,6 @@ class App extends React.Component {
       img: e.target.img.value
     }
     this.postPokemon(newPokemon);
-  }
-
-  handleDelete = async (pokemonToDelete) => {
-    const url = `${API_URL}/${pokemonToDelete._id}`;
-
-    try {
-      const response = await axios.delete(url);
-      console.log(response.data);
-      const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== pokemonToDelete._id);
-      this.setState({ pokemon: filteredPokemon });
-    } catch (error) {
-      console.error('Handle Delete: We have an error!', error);
-    }
   }
 
   handleOpen = () => {
