@@ -146,22 +146,6 @@ class App extends React.Component {
           </Form>
         </Container>
 
-        <h2>Pokemon</h2>
-        <Form
-          onSubmit={this.findByName}>
-            
-          <Form.Control class="col-md-12 text-center w-25 p-3"
-         
-            className='mb-3 mt-3'
-            box-sizing='sm'
-            type="text"
-            onInput={this.handlePokeName}
-            placeholder="Enter Pokemon Name or type" />
-            <div class="col-md-12 text-center">
-          <Button className='mb-0' variant="outline-dark" type="submit" >Catch 'em!</Button>
-          </div>
-        </Form>
-    
         <Container>
           <Modal className='h-100 p-5'
             show={this.state.showModal}
