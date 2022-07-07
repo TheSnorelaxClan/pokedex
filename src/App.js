@@ -2,15 +2,12 @@ import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
 import { Button, Form, Modal, Container } from 'react-bootstrap';
-import Roster from './components/Roster';
-import AboutPokedex from './components/AboutPokedex';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
 // import Content from './components/Content';
-// import Footer from './components/Footer';
 
 
 
@@ -31,20 +28,6 @@ class App extends React.Component {
     }
   }
 
-  getPokemon = async () => {
-    console.log('Get Pokemon: ');
-    try {
-      let results = await axios.get(`${process.env.REACT_APP_SERVER}/pokemon`);
-      console.log(results.data);
-      this.setState({
-        pokemon: results.data
-
-      })
-    } catch (error) {
-      console.log('We have an error: ', error.response.data)
-    }
-  }
-
   postPokemon = async (newPokemon) => {
     let url=`${process.env.REACT_APP_SERVER}/pokemon`;
     try {
@@ -58,7 +41,6 @@ class App extends React.Component {
     try {
       let url = `${process.env.REACT_APP_SERVER}/pokemon/${id}`;
       await axios.delete(url);
-      // this.getPokemon();
       let updatedPokemon = this.state.pokemon.filter(pokemon => pokemon._id !== id);
       this.setState({
         pokemon: updatedPokemon
@@ -85,10 +67,6 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.getPokemon();
-  }
-
   handlePokemonSubmit = (e) => {
     e.preventDefault();
     let newPokemon = {
@@ -97,7 +75,6 @@ class App extends React.Component {
       id: e.target.id.value,
       img: e.target.img.value
     }
-    console.log(newPokemon);
     this.postPokemon(newPokemon);
   }
 
@@ -256,10 +233,6 @@ class App extends React.Component {
           <h2 onClick={()=>this.findByType('Water')}>Water</h2>
           <h2 onClick={()=>this.findByType('Grass')}>Grass</h2>
         </Container>}
-        <Roster />
-        {/* <AboutUs/> */}
-        <AboutPokedex />
-        {/* <Footer /> */}
 
 
       </>
