@@ -2,6 +2,8 @@
   max-height: 400px;
   margin-bottom: 0;
 }
+/* Bouncing Poke Ball:
+https://codepen.io/jeffwilkey/pen/qBWPjKm/ */
 
 .poke {
   display: block;
