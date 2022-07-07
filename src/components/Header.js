@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 
 class Header extends React.Component {
   render() {
+    
     return (
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" 
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '10vh',
+      }} >
         <Navbar.Brand>Pokedex</Navbar.Brand>
         <NavItem><Link to="/" className="nav-link">Home</Link></NavItem>
         <NavItem><Link to="/roster" className="nav-link">Library</Link></NavItem>
