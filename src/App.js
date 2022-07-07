@@ -1,12 +1,13 @@
 import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Modal, Container, Card } from 'react-bootstrap';
+import { Button, Form, Modal, Container } from 'react-bootstrap';
 import Roster from './components/Roster';
 import AboutPokedex from './components/AboutPokedex';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
+import Pokemon from './components/Pokemon'
 import './App.css';
 // import Content from './components/Content';
 // import Footer from './components/Footer';
@@ -24,7 +25,9 @@ class App extends React.Component {
     this.state = {
       pokemon: [],
       pokeNameObj: {},
-      showModal: false
+      showModal: false,
+      typeData: [],
+      showCards: false,
     }
   }
 
@@ -42,23 +45,12 @@ class App extends React.Component {
     }
   }
 
-  postPokemon = async (pokemon) => {
-    console.log('Post Pokemon: ', pokemon);
-    let config = {
-      method: 'post',
-      url: `${process.env.REACT_APP_SERVER}/pokemon`,
-      data: pokemon
-    }
-    
+  postPokemon = async (newPokemon) => {
+    let url=`${process.env.REACT_APP_SERVER}/pokemon`;
     try {
-      let results = await axios(config);
-      console.log(results.data);
-      this.setState({
-        pokemon: [...this.state.pokemon, results.data]
-
-      })
+      await axios.post(url, newPokemon);
     } catch (error) {
-      console.log('Post Pokemon: We have an error: ', error.response.data)
+      console.log('Error creating Pokemon: ', error.response.data)
     }
   }
 
@@ -163,13 +155,52 @@ class App extends React.Component {
       })
     }
   }
+
+  findByType = async (type) => {
+    try {
+      let pokemonURL = `${process.env.REACT_APP_SERVER}/gettype/${type}`
+      let pokeTypeObj = await axios.get(pokemonURL);
+
+      this.setState({
+        showCards: true,
+        typeData: pokeTypeObj.data,
+      })
+
+    } catch (error) {
+      console.log('error', error)
+      this.setState({
+        error: true,
+        errorMsg: `Error: ${error.message}. Please Refresh & Try Again.`
+      })
+    }
+  }
+
+  addPokemon = (name, types, id, img)=>{
+    let newPokemon={
+      name: name,
+      types: types,
+      id: id,
+      img: img
+    }
+    this.postPokemon(newPokemon)
+  }
   
   render() {
-    console.log('Poke name', this.state.pokeName);
-    console.log('Poke Obj', this.state.pokeNameObj);
-    console.log('Poke img', this.state.img);
+
+    let pokemon = this.state.typeData.map((pokemon)=>{
+      return(
+      <Pokemon
+      name={pokemon.name}
+      img={pokemon.img}
+      types={pokemon.types}
+      key={pokemon.id}
+      id={pokemon.id}
+      addPokemon={this.addPokemon}
+      />
+    )});
+
     return (
-      <>      
+      <>
 
       <h2> User Profile </h2>
       {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
@@ -201,9 +232,12 @@ class App extends React.Component {
                 alt={this.state.name}
               />
             </Modal.Body>
+            <Modal.Footer>
+            <Button onClick={()=>this.addPokemon(this.state.name, this.state.types, this.state.id, this.state.img)} variant="primary">Add to library</Button>
+            </Modal.Footer>
           </Modal>
         </Container>
-        <Card className='h-100 p-3'>
+        {/* <Card className='h-100 p-3'>
           <Card.Header className='text-center'>
             {this.state.name}
           </Card.Header>
@@ -211,7 +245,17 @@ class App extends React.Component {
           <Card.Body className='mt-3 mb-3'>
             <Card.Text>{this.state.types}</Card.Text>
           </Card.Body>
-        </Card>
+        </Card> */}
+        {this.state.showCards?
+          <Container>
+            <Button onClick={()=>this.setState({showCards: false})}>Back</Button>
+            {pokemon}
+          </Container>
+        :<Container>
+          <h2 onClick={()=>this.findByType('Fire')}>Fire</h2>
+          <h2 onClick={()=>this.findByType('Water')}>Water</h2>
+          <h2 onClick={()=>this.findByType('Grass')}>Grass</h2>
+        </Container>}
         <Roster />
         {/* <AboutUs/> */}
         <AboutPokedex />
