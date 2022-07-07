@@ -7,8 +7,6 @@ import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
-// import Content from './components/Content';
-
 
 
 
@@ -34,23 +32,6 @@ class App extends React.Component {
       await axios.post(url, newPokemon);
     } catch (error) {
       console.log('Error creating Pokemon: ', error.response.data)
-    }
-  }
-
-  updatePokemon = async (pokemonToUpdate) => {
-    try {
-      let url = `${process.env.REACT_APP_SERVER}/pokemon/${pokemonToUpdate._id}`;
-      let updatedPokemon = await axios.put(url, pokemonToUpdate);
-      let updatedPokemonArray = this.state.pokemon.map(existingPokemon => {
-        return existingPokemon._id === pokemonToUpdate._id
-          ? updatedPokemon.data
-          : existingPokemon
-      });
-      this.setState({
-        pokemon: updatedPokemonArray
-      });
-    } catch (error) {
-      console.log('Updated Pokemon: We have an error: ', error.response.data);
     }
   }
 
@@ -166,11 +147,9 @@ class App extends React.Component {
 
     return (
       <>
-
         <h2> User Profile </h2>
         {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
         {this.props.auth0.isAuthenticated ? <Profile /> : <h3>Please Login! </h3>}
-
 
         <h2>Pokemon</h2>
         <Form
@@ -261,8 +240,6 @@ class App extends React.Component {
                 onClick={() => this.findByType('Psychic')} />
             </Row>
           </Container>}
-
-
       </>
     );
   }
