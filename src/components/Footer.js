@@ -4,7 +4,7 @@ class Footer extends React.Component {
   render() {
     return (
       <footer>
-        Pokedex@ Code Fellows 2022
+        {/* Pokedex@ Code Fellows 2022 */}
       </footer>
     );
   }

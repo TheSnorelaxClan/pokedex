@@ -137,7 +137,7 @@ class App extends React.Component {
           <Form
             onSubmit={this.findByName}>
             <Form.Control
-              className='mb-3 mt-3'
+              className='mb-5'
               box-sizing='border-box'
               type="text"
               onInput={this.handlePokeName}
