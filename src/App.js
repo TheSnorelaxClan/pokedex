@@ -1,7 +1,7 @@
 import { withAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Modal, Container } from 'react-bootstrap';
+import { Button, Form, Modal, Container, Row } from 'react-bootstrap';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
@@ -197,14 +197,16 @@ class App extends React.Component {
               />
             </Modal.Body>
             <Modal.Footer>
-            <Button onClick={()=>this.addPokemon(this.state.name, this.state.types, this.state.id, this.state.img)} variant="primary">Add to library</Button>
+            <Button variant="dark" onClick={()=>this.addPokemon(this.state.name, this.state.types, this.state.id, this.state.img)} >Add to library</Button>
             </Modal.Footer>
           </Modal>
         </Container>
         {this.state.showCards?
           <Container>
-            <Button onClick={()=>this.setState({showCards: false})}>Back</Button>
+            <Button variant="outline-dark" onClick={()=>this.setState({showCards: false})}>Back</Button>
+            <Row xs={1} sm={2} md={3} lg={6}>
             {pokemon}
+            </Row>
           </Container>
         :<Container>
           <h2 onClick={()=>this.findByType('Fire')}>Fire</h2>
