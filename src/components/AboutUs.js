@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import { Card, Container, Row, } from 'react-bootstrap';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 class Header extends React.Component {
   render() {
     return (
@@ -13,13 +13,15 @@ class Header extends React.Component {
         <br />
         <Container>
 
-          <Row className="d-flex justify-content-between h-100 mt-10 p-3" xs={1} sm={2} md={3} lg={5} >
+          <Col className='md-5 mt-5 h-100'>
+            <Container><Row className="d-flex justify-content-between h-100 mt-10 p-3" xs={1} sm={2} md={3} lg={5} >
+            
             <Card style={{ width: '15rem' }} className="h-100 x-10 p-3 card-container">
               <Card.Title>
                 <p> Brentice Loper</p>
               </Card.Title>
               <Card.Text>
-                <p>Pokemon breeder </p>
+                <p>Pokemon Breeder </p>
               </Card.Text>
               <Card.Img
                 className="type-icon"
@@ -34,7 +36,7 @@ class Header extends React.Component {
               </Card.Body>
             </Card>
 
-            <Card style={{ width: '15rem' }} className="h-100 p-3 card-container">
+            <Card className="h-100 p-3 card-container" style={{ width: '15rem' }} >
               <Card.Title>
                 <p> Matthew Larkin</p>
               </Card.Title>
@@ -110,8 +112,9 @@ class Header extends React.Component {
                 </Card.Text>
               </Card.Body>
             </Card>
-
-          </Row>
+            </Row>
+            </Container>
+          </Col>
         </Container>
       </>
     );

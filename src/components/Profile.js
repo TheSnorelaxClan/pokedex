@@ -11,8 +11,11 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <Container>
-        <img src={user.picture} alt={user.name} />
+      <Container className="fixed-top mt-2">
+        {/* <img 
+        src={user.picture} 
+        alt={user.name}
+        className="rounded-circle img-fluid profile-picture mb-3 mb-md-0" /> */}
         {/* <h3>{user.name}</h3>
         <p>{user.email}</p> */}
       </Container>
@@ -21,3 +24,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
