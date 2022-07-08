@@ -131,13 +131,13 @@ class App extends React.Component {
       <>
 
         {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        {this.props.auth0.isAuthenticated ? <Profile /> : <p>Please Login! </p>}
+        {this.props.auth0.isAuthenticated ? <Profile /> : <p></p>}
 
         <Container className="d-flex align-items-center justify-content-center text-center">
           <Form
             onSubmit={this.findByName}>
             <Form.Control
-              className='mb-5'
+              className='mb-4 mt-4'
               box-sizing='border-box'
               type="text"
               onInput={this.handlePokeName}
