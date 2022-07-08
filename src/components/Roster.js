@@ -85,7 +85,7 @@ class Header extends React.Component {
         <Col className='md-5 mt-5'>
           <Card
             key={pokemon._id}
-            className="d-flex align-items-center justify-content-center text-center"
+            className="d-flex align-items-center justify-content-center text-center bg-transparent"
           >
             <Card.Img
               src={pokemon.img}
@@ -98,7 +98,7 @@ class Header extends React.Component {
                 onClick={() => this.handleUpdate(pokemon.name, pokemon.types, pokemon.id, pokemon.img)}>Add to team
               </Button>
             </Card.Body>
-            <Card.Footer >
+            <Card.Footer className='bg-transparent' >
               <Button
                 className='m-1'
                 variant="dark"
@@ -114,7 +114,7 @@ class Header extends React.Component {
       return (
         <Col className='md-5 mt-5'>
           <Card
-          className="d-flex align-items-center justify-content-center text-center"
+          className="d-flex align-items-center justify-content-center text-center bg-transparent"
           key={pokemon._id}>
             <Card.Img src={pokemon.img} alt={pokemon.name} />
             {this.state.showSwap ?
