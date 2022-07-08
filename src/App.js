@@ -7,7 +7,6 @@ import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import Pokemon from './components/Pokemon'
 import './App.css';
-// import Header from './components/Header';
 
 class App extends React.Component {
   constructor(props) {
