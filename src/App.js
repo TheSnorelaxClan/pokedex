@@ -131,7 +131,7 @@ class App extends React.Component {
       <>
 
         {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        {this.props.auth0.isAuthenticated ? <Profile /> : <p>Please Login! </p>}
+        {this.props.auth0.isAuthenticated ? <Profile /> : <p></p>}
 
         <Container className="d-flex align-items-center justify-content-center text-center">
           <Form

@@ -7,13 +7,11 @@ const LogoutButton = () => {
 
   return (
     <>
-    
     <Button 
     variant="outline-dark" 
     onClick={() => logout({ returnTo: window.location.origin })}>
       Log Out
     </Button>
-   
     </>
   );
 };

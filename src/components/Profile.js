@@ -3,7 +3,7 @@ import React from "react";
 import { Container } from 'react-bootstrap';
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -12,7 +12,7 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <Container>
-        <img src={user.picture} alt={user.name} />
+        {/* <img src={user.picture} alt={user.name} /> */}
         {/* <h3>{user.name}</h3>
         <p>{user.email}</p> */}
       </Container>
