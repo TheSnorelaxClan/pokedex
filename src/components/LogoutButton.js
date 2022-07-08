@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { Container } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 
 const LogoutButton = () => {
